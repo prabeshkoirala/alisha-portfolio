@@ -41,7 +41,7 @@ export function Nav() {
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.5 }}
-                className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-4 md:py-5 glass-morphism border-b border-border/40 dark:border-white/5 backdrop-blur-xl"
+                className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-4 md:py-5 glass-morphism border-b border-white/50 dark:border-white/5 backdrop-blur-2xl backdrop-saturate-150"
             >
                 <Link href="/" className="text-2xl md:text-3xl font-bold tracking-wide font-pinyon bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500 hover:scale-105 transition-transform cursor-pointer">
                     Alisha Tajpuriya

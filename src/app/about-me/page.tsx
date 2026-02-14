@@ -38,10 +38,10 @@ function AnimatedCounter({ value, suffix = "", label }: { value: number; suffix?
 
     return (
         <div ref={ref} className="text-center">
-            <div className="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">
+            <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">
                 {count}{suffix}
             </div>
-            <div className="text-sm text-muted-foreground mt-2">{label}</div>
+            <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">{label}</div>
         </div>
     );
 }
@@ -56,11 +56,11 @@ function SkillBar({ skill, level, color, delay }: { skill: string; level: number
             transition={{ delay, duration: 0.5 }}
             className="group"
         >
-            <div className="flex justify-between text-sm mb-2">
+            <div className="flex justify-between text-xs sm:text-sm mb-1.5 sm:mb-2">
                 <span className="font-medium text-foreground">{skill}</span>
                 <span className="text-muted-foreground">{level}%</span>
             </div>
-            <div className="h-3 rounded-full bg-muted dark:bg-white/5 overflow-hidden">
+            <div className="h-2.5 sm:h-3 rounded-full bg-muted dark:bg-white/5 overflow-hidden">
                 <motion.div
                     initial={{ width: 0 }}
                     whileInView={{ width: `${level}%` }}
@@ -81,13 +81,13 @@ function Milestone({ year, title, description, index }: { year: string; title: s
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.15 }}
-            className="relative pl-8 pb-10 last:pb-0"
+            className="relative pl-7 sm:pl-8 pb-8 sm:pb-10 last:pb-0"
         >
-            <div className="absolute left-0 top-1.5 w-3 h-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 shadow-[0_0_8px_rgba(13,204,242,0.5)]" />
-            <div className="absolute left-[5px] top-5 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500/40 to-transparent last:hidden" />
-            <span className="text-xs font-mono text-purple-600 dark:text-purple-400 font-semibold">{year}</span>
-            <h4 className="text-lg font-bold text-foreground mt-1">{title}</h4>
-            <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{description}</p>
+            <div className="absolute left-0 top-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 shadow-[0_0_8px_rgba(13,204,242,0.5)]" />
+            <div className="absolute left-[4px] sm:left-[5px] top-5 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500/40 to-transparent last:hidden" />
+            <span className="text-[10px] sm:text-xs font-mono text-purple-600 dark:text-purple-400 font-semibold">{year}</span>
+            <h4 className="text-base sm:text-lg font-bold text-foreground mt-1 leading-snug">{title}</h4>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1 leading-relaxed">{description}</p>
         </motion.div>
     );
 }
@@ -124,42 +124,42 @@ export default function AboutMePage() {
     return (
         <main className="min-h-screen bg-background text-foreground">
             {/* ── Hero Section ─────────────────────────── */}
-            <section ref={heroRef} className="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
+            <section ref={heroRef} className="relative min-h-[60vh] sm:min-h-[80vh] flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-20 sm:pt-0">
                 <motion.div style={{ opacity: heroOpacity, y: heroY }} className="max-w-3xl text-center z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        <Link href="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-10 group">
+                        <Link href="/" className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors mb-6 sm:mb-10 group">
                             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                             Back to Portfolio
                         </Link>
 
-                        <h1 className="text-4xl md:text-6xl font-bold leading-tight mt-6">
+                        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold leading-tight mt-4 sm:mt-6">
                             My <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Story</span>
                         </h1>
-                        <p className="text-lg md:text-xl text-muted-foreground mt-6 leading-relaxed max-w-2xl mx-auto">
+                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground mt-4 sm:mt-6 leading-relaxed max-w-2xl mx-auto px-2">
                             I am a business professional and Utica University MBA student passionate about turning complex operational challenges into streamlined growth.
                         </p>
                     </motion.div>
                 </motion.div>
 
                 {/* Decorative gradient orbs */}
-                <div className="absolute top-20 left-10 w-72 h-72 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-10 right-10 w-96 h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute top-20 -left-10 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
+                <div className="absolute bottom-10 -right-10 sm:right-10 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
             </section>
 
             {/* ── Bio Section ──────────────────────────── */}
-            <section className="py-20 px-6">
+            <section className="py-14 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-4xl">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="glass-morphism p-8 md:p-12 rounded-3xl border border-border dark:border-white/10"
+                        className="glass-morphism p-6 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-border dark:border-white/10"
                     >
-                        <p className="text-lg md:text-xl text-muted-foreground leading-relaxed">
+                        <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
                             With a career spanning luxury hospitality at <span className="text-foreground font-semibold">The Soaltee Kathmandu</span> and high-velocity contact centers, I have developed a sharp analytical lens and the ability to navigate diverse, multilingual business environments.
                         </p>
                     </motion.div>
@@ -167,9 +167,9 @@ export default function AboutMePage() {
             </section>
 
             {/* ── Impact Numbers ───────────────────────── */}
-            <section className="py-16 px-6 bg-muted/50 dark:bg-black/20">
+            <section className="py-12 sm:py-16 px-4 sm:px-6 bg-muted/50 dark:bg-black/20">
                 <div className="container mx-auto max-w-4xl">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-8">
                         <AnimatedCounter value={25} suffix="%" label="Business Growth Driven" />
                         <AnimatedCounter value={150} suffix="+" label="Clients Managed Daily" />
                         <AnimatedCounter value={95} suffix="%" label="First-Call Resolution" />
@@ -179,18 +179,18 @@ export default function AboutMePage() {
             </section>
 
             {/* ── Key Strengths Cards ──────────────────── */}
-            <section className="py-20 px-6">
+            <section className="py-14 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-4xl">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl font-bold mb-12 text-center"
+                        className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center"
                     >
                         Key <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Strengths</span>
                     </motion.h2>
 
-                    <div className="grid md:grid-cols-3 gap-6">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
                         {[
                             {
                                 icon: Languages,
@@ -218,13 +218,13 @@ export default function AboutMePage() {
                                 viewport={{ once: true }}
                                 transition={{ delay: i * 0.15 }}
                                 whileHover={{ y: -8, scale: 1.02 }}
-                                className="p-6 rounded-2xl glass-morphism border border-border dark:border-white/10 hover:shadow-xl transition-all duration-300 group cursor-default"
+                                className="p-5 sm:p-6 rounded-xl sm:rounded-2xl glass-morphism border border-border dark:border-white/10 hover:shadow-xl transition-all duration-300 group cursor-default"
                             >
-                                <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
-                                    <card.icon className="w-6 h-6 text-white" />
+                                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                                    <card.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                                 </div>
-                                <h3 className="text-lg font-bold text-foreground mb-2">{card.title}</h3>
-                                <p className="text-sm text-muted-foreground leading-relaxed">{card.desc}</p>
+                                <h3 className="text-base sm:text-lg font-bold text-foreground mb-1.5 sm:mb-2">{card.title}</h3>
+                                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{card.desc}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -232,18 +232,18 @@ export default function AboutMePage() {
             </section>
 
             {/* ── Languages Viz ─────────────────────────── */}
-            <section className="py-16 px-6 bg-muted/50 dark:bg-black/20">
-                <div className="container mx-auto max-w-2xl">
+            <section className="py-12 sm:py-16 px-4 sm:px-6 bg-muted/50 dark:bg-black/20">
+                <div className="container mx-auto max-w-md sm:max-w-2xl">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl font-bold mb-10 text-center"
+                        className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-10 text-center"
                     >
-                        <Globe className="w-8 h-8 inline-block mr-2 text-cyan-600 dark:text-cyan-400 -mt-1" />
+                        <Globe className="w-6 h-6 sm:w-8 sm:h-8 inline-block mr-2 text-cyan-600 dark:text-cyan-400 -mt-1" />
                         Languages
                     </motion.h2>
-                    <div className="grid grid-cols-3 gap-6">
+                    <div className="grid grid-cols-3 gap-3 sm:gap-6">
                         {languages.map((lang, i) => (
                             <motion.div
                                 key={lang.name}
@@ -254,7 +254,7 @@ export default function AboutMePage() {
                                 className="text-center"
                             >
                                 {/* Circular progress ring */}
-                                <div className="relative w-24 h-24 mx-auto mb-3">
+                                <div className="relative w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto mb-2 sm:mb-3">
                                     <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
                                         <circle cx="50" cy="50" r="42" fill="none" strokeWidth="6" className="stroke-muted dark:stroke-white/10" />
                                         <motion.circle
@@ -268,11 +268,11 @@ export default function AboutMePage() {
                                         />
                                     </svg>
                                     <div className="absolute inset-0 flex items-center justify-center">
-                                        <span className="text-lg font-bold text-foreground">{lang.percent}%</span>
+                                        <span className="text-sm sm:text-base md:text-lg font-bold text-foreground">{lang.percent}%</span>
                                     </div>
                                 </div>
-                                <div className="text-sm font-semibold text-foreground">{lang.name}</div>
-                                <div className="text-xs text-muted-foreground">{lang.level}</div>
+                                <div className="text-xs sm:text-sm font-semibold text-foreground">{lang.name}</div>
+                                <div className="text-[10px] sm:text-xs text-muted-foreground">{lang.level}</div>
                             </motion.div>
                         ))}
                     </div>
@@ -280,17 +280,17 @@ export default function AboutMePage() {
             </section>
 
             {/* ── Skills Bar Graph ──────────────────────── */}
-            <section className="py-20 px-6">
+            <section className="py-14 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-2xl">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl font-bold mb-12 text-center"
+                        className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center"
                     >
                         Skills & <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Proficiency</span>
                     </motion.h2>
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6">
                         {skillsData.map((s, i) => (
                             <SkillBar key={s.skill} {...s} delay={i * 0.1} />
                         ))}
@@ -299,13 +299,13 @@ export default function AboutMePage() {
             </section>
 
             {/* ── Journey Timeline ──────────────────────── */}
-            <section className="py-20 px-6 bg-muted/50 dark:bg-black/20">
+            <section className="py-14 sm:py-20 px-4 sm:px-6 bg-muted/50 dark:bg-black/20">
                 <div className="container mx-auto max-w-2xl">
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="text-3xl font-bold mb-12 text-center"
+                        className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center"
                     >
                         Career <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Timeline</span>
                     </motion.h2>
@@ -318,24 +318,24 @@ export default function AboutMePage() {
             </section>
 
             {/* ── CTA Footer ───────────────────────────── */}
-            <section className="py-20 px-6 text-center">
+            <section className="py-14 sm:py-20 px-4 sm:px-6 text-center">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                 >
-                    <h2 className="text-3xl font-bold mb-6">Interested in working together?</h2>
-                    <div className="flex flex-wrap justify-center gap-4">
+                    <h2 className="text-2xl sm:text-3xl font-bold mb-5 sm:mb-6">Interested in working together?</h2>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
                         <Link
                             href="/#contact"
-                            className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold hover:shadow-xl hover:shadow-cyan-500/30 transition-all"
+                            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold hover:shadow-xl hover:shadow-cyan-500/30 transition-all text-sm sm:text-base"
                         >
                             Get in Touch
                             <ChevronRight className="w-4 h-4" />
                         </Link>
                         <Link
                             href="/"
-                            className="inline-flex items-center gap-2 px-8 py-4 rounded-full glass-morphism border border-border dark:border-white/10 text-foreground font-medium hover:shadow-lg transition-all"
+                            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full glass-morphism border border-border dark:border-white/10 text-foreground font-medium hover:shadow-lg transition-all text-sm sm:text-base"
                         >
                             <ArrowLeft className="w-4 h-4" />
                             Back to Portfolio
