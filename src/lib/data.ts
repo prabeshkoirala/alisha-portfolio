@@ -2,10 +2,10 @@ export const personalInfo = {
     name: "Alisha Tajpuriya",
     title: "MBA Candidate | Business Analytics & Operations",
     philosophy: "Discipline is the bridge between goals and accomplishment.",
-    email: "alisha.tajpuriya@example.com", // Placeholder
+    email: "alishataj01@gmail.com",
     location: "New York, NY",
     social: {
-        linkedin: "#"
+        linkedin: "https://www.linkedin.com/in/alisha-tajpuriya-136978269/"
     },
     images: {
         portrait: "/portrait.jpg",
