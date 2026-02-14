@@ -1,26 +1,201 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --font-space-grotesk: var(--font-space-grotesk);
+  --font-pinyon-script: var(--font-pinyon-script);
+
+  --animate-fade-up: fade-up 0.5s ease-out forwards;
+  --animate-glow: glow 2s ease-in-out infinite alternate;
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes glow {
+    from {
+      box-shadow: 0 0 5px #0dccf2, 0 0 10px #0dccf2;
+    }
+
+    to {
+      box-shadow: 0 0 20px #0dccf2, 0 0 30px #0dccf2;
+    }
   }
 }
 
-body {
+/* Custom Utilities */
+@utility glass-morphism {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+@utility neon-border {
+  border: 1px solid rgba(13, 204, 242, 0.5);
+  box-shadow: 0 0 10px rgba(13, 204, 242, 0.3);
+}
+
+@layer base {
+  :root {
+    /* Improved Light Theme with Better Contrast */
+    --background: hsl(0 0% 98%);
+    --foreground: hsl(240 10% 4%);
+    /* High contrast black */
+    --card: hsl(0 0% 100%);
+    --card-foreground: hsl(240 10% 4%);
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(240 10% 4%);
+    --primary: hsl(262 83% 58%);
+    --primary-foreground: hsl(0 0% 98%);
+    --secondary: hsl(240 4.8% 95.9%);
+    --secondary-foreground: hsl(240 5.9% 10%);
+    --muted: hsl(240 4.8% 95.9%);
+    --muted-foreground: hsl(240 5% 45%);
+    /* Darker, readable gray */
+    --accent: hsl(240 4.8% 95.9%);
+    --accent-foreground: hsl(240 5.9% 10%);
+    --destructive: hsl(0 84.2% 60.2%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(240 5.9% 90%);
+    --input: hsl(240 5.9% 90%);
+    --ring: hsl(262 83% 58%);
+    --radius: 0.75rem;
+
+    /* Light Mode Glass Variables */
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+
+    /* Background Pattern for Light Mode */
+    background-image: radial-gradient(at 0% 0%, rgba(13, 204, 242, 0.1) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+  }
+
+  .dark {
+    /* StitchMCP Futuristic Dark Theme */
+    --background: hsl(240 60% 8%);
+    /* Deep Navy */
+    --foreground: hsl(0 0% 95%);
+    --card: hsl(240 50% 10%);
+    --card-foreground: hsl(0 0% 95%);
+    --popover: hsl(240 50% 10%);
+    --popover-foreground: hsl(0 0% 95%);
+    --primary: hsl(190 90% 50%);
+    /* Neon Blue */
+    --primary-foreground: hsl(240 60% 8%);
+    --secondary: hsl(260 80% 60%);
+    /* Purple */
+    --secondary-foreground: hsl(0 0% 98%);
+    --muted: hsl(240 30% 20%);
+    --muted-foreground: hsl(240 20% 70%);
+    --accent: hsl(240 30% 20%);
+    --accent-foreground: hsl(0 0% 98%);
+    --destructive: hsl(0 62.8% 30.6%);
+    --destructive-foreground: hsl(0 0% 98%);
+    --border: hsl(240 30% 20%);
+    --input: hsl(240 30% 20%);
+    --ring: hsl(190 90% 50%);
+
+    /* Dark Mode Glass Variables */
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+
+    /* Background Pattern for Dark Mode */
+    background-image: radial-gradient(at 0% 0%, rgba(13, 204, 242, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.15) 0px, transparent 50%);
+  }
+
+  @keyframes gradient-shift {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  body {
+    @apply text-foreground transition-colors duration-300 font-space-grotesk;
+    font-feature-settings: "rlig" 1, "calt" 1;
+    background-size: 300% 300%;
+    animation: gradient-shift 20s ease infinite;
+  }
+
+  /* Light Theme Animated Background */
+  :root body {
+    background-image: linear-gradient(-45deg,
+        #f8fafc,
+        #f0f9ff,
+        #f5f3ff,
+        #ffffff);
+  }
+
+  /* Dark Theme Animated Background */
+  .dark body {
+    background-image: linear-gradient(-45deg,
+        #020617,
+        #0f172a,
+        #1e1b4b,
+        #2e1065,
+        #020617);
+  }
+}
+
+@layer utilities {
+  .font-pinyon {
+    font-family: var(--font-pinyon-script);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
 }
