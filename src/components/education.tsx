@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { education } from "@/lib/data";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, MapPin } from "lucide-react";
 
 export function Education() {
     return (
@@ -20,12 +20,27 @@ export function Education() {
                             transition={{ type: "spring", stiffness: 300 }}
                             className="p-8 rounded-2xl glass-morphism border border-border dark:border-white/10 hover:border-cyan-500/50 dark:hover:border-cyan-400/50 transition-colors shadow-lg group cursor-default hover:shadow-xl"
                         >
-                            <GraduationCap className="w-10 h-10 text-cyan-600 dark:text-cyan-400 mb-6 group-hover:scale-110 transition-transform duration-300" />
-                            <h3 className="text-2xl font-bold text-foreground mb-2">{edu.degree}</h3>
-                            <div className="text-cyan-600 dark:text-cyan-400 mb-4 font-medium">{edu.school}</div>
-                            <div className="flex justify-between text-sm text-muted-foreground border-t border-border dark:border-white/10 pt-4 mt-4">
-                                <span>{edu.year}</span>
-                                {edu.grade && <span className="font-mono text-foreground">{edu.grade}</span>}
+                            <GraduationCap className="w-10 h-10 text-cyan-600 dark:text-cyan-400 mb-4 group-hover:scale-110 transition-transform duration-300" />
+                            <h3 className="text-xl font-bold text-foreground mb-1">{edu.degree}</h3>
+                            <p className="text-sm text-purple-600 dark:text-purple-400 font-medium mb-3 italic">{edu.major}</p>
+                            <div className="text-cyan-700 dark:text-cyan-400 font-medium mb-1">{edu.school}</div>
+                            <div className="flex items-center gap-1 text-xs text-muted-foreground mb-4">
+                                <MapPin className="w-3 h-3" />
+                                {edu.location}
+                            </div>
+
+                            <div className="border-t border-border dark:border-white/10 pt-4 mt-2">
+                                <span className="text-sm font-mono text-muted-foreground">{edu.year}</span>
+                                {edu.details && (
+                                    <ul className="mt-3 space-y-1">
+                                        {edu.details.map((detail, i) => (
+                                            <li key={i} className="text-sm text-muted-foreground flex gap-2">
+                                                <span className="text-cyan-600 dark:text-cyan-400">•</span>
+                                                <span>{detail}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                )}
                             </div>
                         </motion.div>
                     ))}

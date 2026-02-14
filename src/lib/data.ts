@@ -15,50 +15,78 @@ export const personalInfo = {
 
 export const skills = [
     "Microsoft Excel", "Google Analytics", "Business Analytics",
-    "CRM (Mindbody)", "Opera PMS", "Project Management",
+    "CRM (Klozer)", "Opera PMS", "Project Management",
     "Cross-cultural Communication", "Conflict Resolution", "Team Leadership"
 ];
 
 export const experience = [
     {
         role: "Customer Service Specialist",
-        company: "Reformer Body Pilates",
-        duration: "Jan 2023 – Present",
-        description: "Manages high-volume reservations (100+ calls/day). Maintains a 4.8/5.0 client satisfaction rating. Streamlined scheduling for 60+ weekly clients."
+        company: "G.P.G. Services Pvt. Ltd., Australian Captive Unit Contact Center",
+        location: "Kathmandu",
+        duration: "March 2025 – June 2025",
+        description: [
+            "Managed high-volume customer service operations for 150+ Australian clients daily, delivering efficient multilingual support that increased customer satisfaction",
+            "Enhanced organizational growth by maintaining 95% first-call resolution rate and reducing average call handling time by 18%, directly contributing to improved operational efficiency and cost savings",
+            "Resolved 40+ complex customer cases weekly using CRM tools (Klozer) and multi-channel platforms, turning challenges into positive outcomes while promoting a collaborative team culture"
+        ]
+    },
+    {
+        role: "Administrative Assistant",
+        company: "Reformer Body Pilates Studio",
+        location: "Kathmandu, Nepal",
+        duration: "July 2024 – March 2025",
+        description: [
+            "Coordinated comprehensive scheduling system for 60+ weekly clients across 4 instructors, implementing streamlined booking processes that reduced scheduling conflicts and enhanced client satisfaction ratings to 4.8/5.0",
+            "Managed studio operations including client communications, payment processing, and membership renewals, ensuring seamless workflows that supported 25% business growth during tenure",
+            "Provided exceptional customer service in a wellness environment by addressing client inquiries, resolving booking issues, and managing scheduling and payment systems while maintaining strong organization and building positive relationships with diverse local and international clients aged 25–65"
+        ]
     },
     {
         role: "Guest Relations Executive (Intern)",
         company: "The Soaltee Kathmandu",
-        duration: "Previous",
-        description: "Delivered exceptional service to international clientele in a premier luxury hotel. Enhanced guest experience through personalized attention."
-    },
-    {
-        role: "Administrative Assistant",
-        company: "Previous Company",
-        duration: "Previous",
-        description: "Coordinated scheduling for 40+ weekly clients, improving satisfaction ratings by 15%."
+        location: "Kathmandu, Nepal",
+        duration: "3 Months (Internship)",
+        description: [
+            "Delivered exceptional guest relations services to 200+ international guests from 15+ countries, earning Letter of Appreciation for outstanding performance",
+            "Resolved guest inquiries, complaints, and special requests by coordinating with 25+ staff across departments, while personally managing VIP services and cultural needs to ensure a seamless luxury hospitality experience and enhance guest loyalty",
+            "Gained valuable experience in hospitality management software (Opera), conflict resolution, and diplomatic communication skills essential for international business environments"
+        ]
     }
 ];
 
 export const education = [
     {
         degree: "Master of Business Administration (MBA)",
+        major: "Business Analytics",
         school: "Utica University",
-        year: "Expected 2024",
-        major: "Business Analytics"
+        location: "Utica, NY",
+        year: "Expected Graduation: 2027"
     },
     {
         degree: "Bachelor of Business Management (BBM)",
-        school: "Tribhuvan University",
-        year: "Graduated",
-        grade: "GPA: 3.77"
+        major: "Entrepreneurship",
+        school: "Orchid International College, Tribhuvan University",
+        location: "Kathmandu, Nepal",
+        year: "Graduation Date: 2025",
+        details: ["Business Administration Focus", "GPA: 3.77"]
     }
 ];
 
-export const projects = [
+export const involvement = [
     {
         title: "Prom Event Organizer",
-        role: "Lead Organizer",
-        description: "Led planning for a major college-level event, managing a budget for 200+ attendees and ensuring a seamless experience."
+        organization: "Orchid International College",
+        date: "September 2023",
+        description: [
+            "Led the comprehensive planning and execution of a prom event for 200 attendees",
+            "Managed venue selection, budget allocation, logistical coordination, and vendor relations, resulting in a highly successful event and positive attendee feedback"
+        ]
     }
+];
+
+export const hobbies = [
+    "Fitness enthusiast who enjoys pushing physical and mental limits",
+    "Avid reader with an interest in personal growth and creativity",
+    "Detail-oriented individual who values discipline, focus, and time management"
 ];

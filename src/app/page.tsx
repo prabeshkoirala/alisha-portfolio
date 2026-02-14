@@ -3,6 +3,8 @@ import { Hero } from "@/components/hero";
 import { About } from "@/components/about";
 import { Experience } from "@/components/experience";
 import { Education } from "@/components/education";
+import { Involvement } from "@/components/involvement";
+import { Hobbies } from "@/components/hobbies";
 import { Contact } from "@/components/contact";
 
 export default function Home() {
@@ -13,6 +15,8 @@ export default function Home() {
       <About />
       <Experience />
       <Education />
+      <Involvement />
+      <Hobbies />
       <Contact />
 
       {/* Global decorative gradient */}
