@@ -65,38 +65,43 @@
 
 @layer base {
   :root {
-    /* Improved Light Theme with Better Contrast */
-    --background: hsl(0 0% 98%);
-    --foreground: hsl(240 10% 4%);
-    /* High contrast black */
-    --card: hsl(0 0% 100%);
-    --card-foreground: hsl(240 10% 4%);
+    /* Clean Modern Light Theme - High Contrast */
+    --background: hsl(0 0% 100%);
+    /* Pure white */
+    --foreground: hsl(0 0% 9%);
+    /* Almost black for maximum readability */
+    --card: hsl(0 0% 98%);
+    /* Very light gray cards */
+    --card-foreground: hsl(0 0% 9%);
     --popover: hsl(0 0% 100%);
-    --popover-foreground: hsl(240 10% 4%);
-    --primary: hsl(262 83% 58%);
-    --primary-foreground: hsl(0 0% 98%);
-    --secondary: hsl(240 4.8% 95.9%);
-    --secondary-foreground: hsl(240 5.9% 10%);
-    --muted: hsl(240 4.8% 95.9%);
-    --muted-foreground: hsl(240 5% 45%);
-    /* Darker, readable gray */
-    --accent: hsl(240 4.8% 95.9%);
-    --accent-foreground: hsl(240 5.9% 10%);
-    --destructive: hsl(0 84.2% 60.2%);
+    --popover-foreground: hsl(0 0% 9%);
+    --primary: hsl(221 83% 53%);
+    /* Vibrant blue */
+    --primary-foreground: hsl(0 0% 100%);
+    --secondary: hsl(210 40% 96%);
+    /* Light blue-gray */
+    --secondary-foreground: hsl(222 47% 11%);
+    --muted: hsl(210 40% 96%);
+    --muted-foreground: hsl(215 16% 47%);
+    /* Medium gray for secondary text */
+    --accent: hsl(210 40% 96%);
+    --accent-foreground: hsl(222 47% 11%);
+    --destructive: hsl(0 84% 60%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: hsl(240 5.9% 90%);
-    --input: hsl(240 5.9% 90%);
-    --ring: hsl(262 83% 58%);
+    --border: hsl(214 32% 91%);
+    /* Clear borders */
+    --input: hsl(214 32% 91%);
+    --ring: hsl(221 83% 53%);
     --radius: 0.75rem;
 
-    /* Light Mode Glass Variables */
-    --glass-bg: rgba(255, 255, 255, 0.75);
-    --glass-border: rgba(0, 0, 0, 0.1);
-    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+    /* Light Mode Glass Variables - Subtle */
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
 
-    /* Background Pattern for Light Mode */
-    background-image: radial-gradient(at 0% 0%, rgba(13, 204, 242, 0.1) 0px, transparent 50%),
-      radial-gradient(at 100% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%);
+    /* Minimal background pattern */
+    background-image: radial-gradient(at 20% 30%, rgba(221, 214, 254, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 70%, rgba(191, 219, 254, 0.15) 0px, transparent 50%);
     background-attachment: fixed;
   }
 
@@ -156,13 +161,10 @@
     animation: gradient-shift 20s ease infinite;
   }
 
-  /* Light Theme Animated Background */
+  /* Light Theme - Clean Solid Background */
   :root body {
-    background-image: linear-gradient(-45deg,
-        #f8fafc,
-        #f0f9ff,
-        #f5f3ff,
-        #ffffff);
+    background: linear-gradient(to bottom, #ffffff 0%, #f9fafb 100%);
+    background-size: 100% 200%;
   }
 
   /* Dark Theme Animated Background */
