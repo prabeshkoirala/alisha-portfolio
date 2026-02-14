@@ -5,6 +5,9 @@ import { useRef, useState, useEffect } from "react";
 import { ArrowLeft, Globe, Cpu, TrendingUp, Languages, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
+const springSmooth = { type: "spring" as const, stiffness: 60, damping: 18 };
+const springBouncy = { type: "spring" as const, stiffness: 300, damping: 15 };
+
 /* ── Animated Counter ──────────────────────────────── */
 function AnimatedCounter({ value, suffix = "", label }: { value: number; suffix?: string; label: string }) {
     const [count, setCount] = useState(0);
@@ -23,12 +26,13 @@ function AnimatedCounter({ value, suffix = "", label }: { value: number; suffix?
     useEffect(() => {
         if (!started) return;
         let frame: number;
-        const duration = 1500;
+        const duration = 1800;
         const start = performance.now();
         const animate = (now: number) => {
             const elapsed = now - start;
             const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
+            // Expo ease-out for dramatic count-up
+            const eased = 1 - Math.pow(2, -10 * progress);
             setCount(Math.round(eased * value));
             if (progress < 1) frame = requestAnimationFrame(animate);
         };
@@ -37,12 +41,19 @@ function AnimatedCounter({ value, suffix = "", label }: { value: number; suffix?
     }, [started, value]);
 
     return (
-        <div ref={ref} className="text-center">
+        <motion.div
+            ref={ref}
+            initial={{ opacity: 0, y: 20, scale: 0.9 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true }}
+            transition={springSmooth}
+            className="text-center"
+        >
             <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">
                 {count}{suffix}
             </div>
             <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">{label}</div>
-        </div>
+        </motion.div>
     );
 }
 
@@ -50,10 +61,10 @@ function AnimatedCounter({ value, suffix = "", label }: { value: number; suffix?
 function SkillBar({ skill, level, color, delay }: { skill: string; level: number; color: string; delay: number }) {
     return (
         <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, x: -30, filter: "blur(4px)" }}
+            whileInView={{ opacity: 1, x: 0, filter: "blur(0px)" }}
             viewport={{ once: true }}
-            transition={{ delay, duration: 0.5 }}
+            transition={{ delay, ...springSmooth }}
             className="group"
         >
             <div className="flex justify-between text-xs sm:text-sm mb-1.5 sm:mb-2">
@@ -65,7 +76,13 @@ function SkillBar({ skill, level, color, delay }: { skill: string; level: number
                     initial={{ width: 0 }}
                     whileInView={{ width: `${level}%` }}
                     viewport={{ once: true }}
-                    transition={{ delay: delay + 0.2, duration: 1, ease: "easeOut" }}
+                    transition={{
+                        delay: delay + 0.15,
+                        type: "spring",
+                        stiffness: 40,
+                        damping: 15,
+                        mass: 0.8,
+                    }}
                     className={`h-full rounded-full ${color} shadow-sm`}
                 />
             </div>
@@ -77,13 +94,19 @@ function SkillBar({ skill, level, color, delay }: { skill: string; level: number
 function Milestone({ year, title, description, index }: { year: string; title: string; description: string; index: number }) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: index * 0.15 }}
+            initial={{ opacity: 0, y: 30, filter: "blur(5px)" }}
+            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            viewport={{ once: true, margin: "-20px" }}
+            transition={{ delay: index * 0.1, ...springSmooth }}
             className="relative pl-7 sm:pl-8 pb-8 sm:pb-10 last:pb-0"
         >
-            <div className="absolute left-0 top-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 shadow-[0_0_8px_rgba(13,204,242,0.5)]" />
+            <motion.div
+                initial={{ scale: 0 }}
+                whileInView={{ scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 + 0.15, ...springBouncy }}
+                className="absolute left-0 top-1.5 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-cyan-500 to-purple-500 shadow-[0_0_8px_rgba(13,204,242,0.5)]"
+            />
             <div className="absolute left-[4px] sm:left-[5px] top-5 bottom-0 w-0.5 bg-gradient-to-b from-cyan-500/40 to-transparent last:hidden" />
             <span className="text-[10px] sm:text-xs font-mono text-purple-600 dark:text-purple-400 font-semibold">{year}</span>
             <h4 className="text-base sm:text-lg font-bold text-foreground mt-1 leading-snug">{title}</h4>
@@ -96,8 +119,8 @@ function Milestone({ year, title, description, index }: { year: string; title: s
 export default function AboutMePage() {
     const heroRef = useRef(null);
     const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
-    const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-    const heroY = useTransform(scrollYProgress, [0, 0.5], ["0%", "30%"]);
+    const heroOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
+    const heroY = useTransform(scrollYProgress, [0, 0.6], ["0%", "25%"]);
 
     const skillsData = [
         { skill: "CRM & Client Management (Klozer)", level: 90, color: "bg-gradient-to-r from-cyan-500 to-cyan-400" },
@@ -121,18 +144,34 @@ export default function AboutMePage() {
         { name: "Hindi", level: "Fluent", percent: 90 },
     ];
 
+    // Stagger variants for strength cards
+    const strengthContainerVariants = {
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.12 } },
+    };
+
+    const strengthCardVariants = {
+        hidden: { opacity: 0, y: 35, filter: "blur(6px)" },
+        visible: {
+            opacity: 1,
+            y: 0,
+            filter: "blur(0px)",
+            transition: springSmooth,
+        },
+    };
+
     return (
         <main className="min-h-screen bg-background text-foreground">
             {/* ── Hero Section ─────────────────────────── */}
             <section ref={heroRef} className="relative min-h-[60vh] sm:min-h-[80vh] flex items-center justify-center px-4 sm:px-6 overflow-hidden pt-20 sm:pt-0">
                 <motion.div style={{ opacity: heroOpacity, y: heroY }} className="max-w-3xl text-center z-10">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8 }}
+                        initial={{ opacity: 0, y: 35, filter: "blur(8px)" }}
+                        animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                        transition={{ type: "spring", stiffness: 50, damping: 15, mass: 1.2 }}
                     >
-                        <Link href="/" className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors mb-6 sm:mb-10 group">
-                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+                        <Link href="/" className="inline-flex items-center gap-2 text-xs sm:text-sm text-muted-foreground hover:text-foreground transition-colors duration-200 mb-6 sm:mb-10 group">
+                            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-300" />
                             Back to Portfolio
                         </Link>
 
@@ -146,17 +185,28 @@ export default function AboutMePage() {
                 </motion.div>
 
                 {/* Decorative gradient orbs */}
-                <div className="absolute top-20 -left-10 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-full blur-3xl pointer-events-none" />
-                <div className="absolute bottom-10 -right-10 sm:right-10 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.5, ease: "easeOut" }}
+                    className="absolute top-20 -left-10 sm:left-10 w-48 sm:w-72 h-48 sm:h-72 bg-cyan-500/10 dark:bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"
+                />
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
+                    className="absolute bottom-10 -right-10 sm:right-10 w-64 sm:w-96 h-64 sm:h-96 bg-purple-500/10 dark:bg-purple-500/20 rounded-full blur-3xl pointer-events-none"
+                />
             </section>
 
             {/* ── Bio Section ──────────────────────────── */}
             <section className="py-14 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-4xl">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         viewport={{ once: true }}
+                        transition={springSmooth}
                         className="glass-morphism p-6 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-border dark:border-white/10"
                     >
                         <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
@@ -182,15 +232,22 @@ export default function AboutMePage() {
             <section className="py-14 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-4xl">
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         viewport={{ once: true }}
+                        transition={springSmooth}
                         className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center"
                     >
                         Key <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Strengths</span>
                     </motion.h2>
 
-                    <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                    <motion.div
+                        className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6"
+                        variants={strengthContainerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-50px" }}
+                    >
                         {[
                             {
                                 icon: Languages,
@@ -213,21 +270,19 @@ export default function AboutMePage() {
                         ].map((card, i) => (
                             <motion.div
                                 key={i}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: i * 0.15 }}
+                                variants={strengthCardVariants}
                                 whileHover={{ y: -8, scale: 1.02 }}
-                                className="p-5 sm:p-6 rounded-xl sm:rounded-2xl glass-morphism border border-border dark:border-white/10 hover:shadow-xl transition-all duration-300 group cursor-default"
+                                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+                                className="p-5 sm:p-6 rounded-xl sm:rounded-2xl glass-morphism border border-border dark:border-white/10 hover:shadow-xl hover:shadow-cyan-500/5 transition-shadow duration-300 group cursor-default"
                             >
-                                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform shadow-lg`}>
+                                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300 shadow-lg`}>
                                     <card.icon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
                                 </div>
                                 <h3 className="text-base sm:text-lg font-bold text-foreground mb-1.5 sm:mb-2">{card.title}</h3>
                                 <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{card.desc}</p>
                             </motion.div>
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
             </section>
 
@@ -235,9 +290,10 @@ export default function AboutMePage() {
             <section className="py-12 sm:py-16 px-4 sm:px-6 bg-muted/50 dark:bg-black/20">
                 <div className="container mx-auto max-w-md sm:max-w-2xl">
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         viewport={{ once: true }}
+                        transition={springSmooth}
                         className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-10 text-center"
                     >
                         <Globe className="w-6 h-6 sm:w-8 sm:h-8 inline-block mr-2 text-cyan-600 dark:text-cyan-400 -mt-1" />
@@ -247,10 +303,10 @@ export default function AboutMePage() {
                         {languages.map((lang, i) => (
                             <motion.div
                                 key={lang.name}
-                                initial={{ opacity: 0, scale: 0.8 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                initial={{ opacity: 0, scale: 0.7, filter: "blur(4px)" }}
+                                whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                                 viewport={{ once: true }}
-                                transition={{ delay: i * 0.15 }}
+                                transition={{ delay: i * 0.12, ...springBouncy }}
                                 className="text-center"
                             >
                                 {/* Circular progress ring */}
@@ -264,7 +320,13 @@ export default function AboutMePage() {
                                             initial={{ strokeDasharray: "0 264" }}
                                             whileInView={{ strokeDasharray: `${lang.percent * 2.64} 264` }}
                                             viewport={{ once: true }}
-                                            transition={{ delay: i * 0.2 + 0.3, duration: 1.2, ease: "easeOut" }}
+                                            transition={{
+                                                delay: i * 0.15 + 0.2,
+                                                type: "spring",
+                                                stiffness: 30,
+                                                damping: 12,
+                                                mass: 0.8,
+                                            }}
                                         />
                                     </svg>
                                     <div className="absolute inset-0 flex items-center justify-center">
@@ -283,16 +345,17 @@ export default function AboutMePage() {
             <section className="py-14 sm:py-20 px-4 sm:px-6">
                 <div className="container mx-auto max-w-2xl">
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         viewport={{ once: true }}
+                        transition={springSmooth}
                         className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center"
                     >
                         Skills & <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Proficiency</span>
                     </motion.h2>
                     <div className="space-y-4 sm:space-y-6">
                         {skillsData.map((s, i) => (
-                            <SkillBar key={s.skill} {...s} delay={i * 0.1} />
+                            <SkillBar key={s.skill} {...s} delay={i * 0.08} />
                         ))}
                     </div>
                 </div>
@@ -302,9 +365,10 @@ export default function AboutMePage() {
             <section className="py-14 sm:py-20 px-4 sm:px-6 bg-muted/50 dark:bg-black/20">
                 <div className="container mx-auto max-w-2xl">
                     <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
+                        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                         viewport={{ once: true }}
+                        transition={springSmooth}
                         className="text-2xl sm:text-3xl font-bold mb-8 sm:mb-12 text-center"
                     >
                         Career <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">Timeline</span>
@@ -320,26 +384,39 @@ export default function AboutMePage() {
             {/* ── CTA Footer ───────────────────────────── */}
             <section className="py-14 sm:py-20 px-4 sm:px-6 text-center">
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 30, filter: "blur(6px)" }}
+                    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     viewport={{ once: true }}
+                    transition={springSmooth}
                 >
                     <h2 className="text-2xl sm:text-3xl font-bold mb-5 sm:mb-6">Interested in working together?</h2>
                     <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4">
-                        <Link
-                            href="/#contact"
-                            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold hover:shadow-xl hover:shadow-cyan-500/30 transition-all text-sm sm:text-base"
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={springBouncy}
                         >
-                            Get in Touch
-                            <ChevronRight className="w-4 h-4" />
-                        </Link>
-                        <Link
-                            href="/"
-                            className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full glass-morphism border border-border dark:border-white/10 text-foreground font-medium hover:shadow-lg transition-all text-sm sm:text-base"
+                            <Link
+                                href="/#contact"
+                                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 text-white font-bold hover:shadow-xl hover:shadow-cyan-500/30 transition-shadow duration-300 text-sm sm:text-base"
+                            >
+                                Get in Touch
+                                <ChevronRight className="w-4 h-4" />
+                            </Link>
+                        </motion.div>
+                        <motion.div
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            transition={springBouncy}
                         >
-                            <ArrowLeft className="w-4 h-4" />
-                            Back to Portfolio
-                        </Link>
+                            <Link
+                                href="/"
+                                className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 rounded-full glass-morphism border border-border dark:border-white/10 text-foreground font-medium hover:shadow-lg transition-shadow duration-300 text-sm sm:text-base"
+                            >
+                                <ArrowLeft className="w-4 h-4" />
+                                Back to Portfolio
+                            </Link>
+                        </motion.div>
                     </div>
                 </motion.div>
             </section>

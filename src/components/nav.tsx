@@ -6,6 +6,11 @@ import { User, Briefcase, Mail, FileText, Download, Menu, X, Sparkles } from "lu
 import { ThemeToggle } from "@/components/theme-toggle";
 import Link from "next/link";
 
+// Shared spring configs
+const springSmooth = { type: "spring" as const, stiffness: 100, damping: 20 };
+const springSnappy = { type: "spring" as const, stiffness: 300, damping: 25 };
+const springBouncy = { type: "spring" as const, stiffness: 400, damping: 15 };
+
 export function Nav() {
     const navLinks = [
         { name: "About", href: "#about", icon: User },
@@ -35,15 +40,28 @@ export function Nav() {
 
     const closeMobile = () => setMobileOpen(false);
 
+    // Stagger container for mobile nav items
+    const mobileListVariants = {
+        hidden: {},
+        visible: { transition: { staggerChildren: 0.05, delayChildren: 0.05 } },
+        exit: { transition: { staggerChildren: 0.03, staggerDirection: -1 } },
+    };
+
+    const mobileItemVariants = {
+        hidden: { opacity: 0, x: -20, filter: "blur(4px)" },
+        visible: { opacity: 1, x: 0, filter: "blur(0px)", transition: springSmooth },
+        exit: { opacity: 0, x: -10, filter: "blur(4px)", transition: { duration: 0.15 } },
+    };
+
     return (
         <>
             <motion.nav
                 initial={{ y: -100, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.5 }}
+                transition={springSmooth}
                 className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-8 py-4 md:py-5 glass-morphism border-b border-white/50 dark:border-white/5 backdrop-blur-2xl backdrop-saturate-150"
             >
-                <Link href="/" className="text-2xl md:text-3xl font-bold tracking-wide font-pinyon bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500 hover:scale-105 transition-transform cursor-pointer">
+                <Link href="/" className="text-2xl md:text-3xl font-bold tracking-wide font-pinyon bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500 hover:scale-105 transition-transform duration-300 cursor-pointer">
                     Alisha Tajpuriya
                 </Link>
 
@@ -55,20 +73,20 @@ export function Nav() {
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        className="relative text-sm font-medium text-muted-foreground hover:text-foreground dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer"
+                                        className="relative text-sm font-medium text-muted-foreground hover:text-foreground dark:text-gray-400 dark:hover:text-white transition-colors duration-200 group cursor-pointer"
                                     >
                                         {link.name}
-                                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-600 dark:bg-cyan-400 transition-all group-hover:w-full" />
+                                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-600 dark:bg-cyan-400 transition-all duration-300 ease-out group-hover:w-full" />
                                     </Link>
                                 </li>
                             ) : (
                                 <li key={link.name}>
                                     <a
                                         href={link.href}
-                                        className="relative text-sm font-medium text-muted-foreground hover:text-foreground dark:text-gray-400 dark:hover:text-white transition-colors group cursor-pointer"
+                                        className="relative text-sm font-medium text-muted-foreground hover:text-foreground dark:text-gray-400 dark:hover:text-white transition-colors duration-200 group cursor-pointer"
                                     >
                                         {link.name}
-                                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-600 dark:bg-cyan-400 transition-all group-hover:w-full" />
+                                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-cyan-600 dark:bg-cyan-400 transition-all duration-300 ease-out group-hover:w-full" />
                                     </a>
                                 </li>
                             )
@@ -79,8 +97,9 @@ export function Nav() {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        transition={springBouncy}
                         onClick={handleResumeClick}
-                        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-500 dark:to-purple-500 text-white text-sm font-semibold shadow-lg shadow-cyan-500/20 dark:shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/30 dark:hover:shadow-cyan-500/40 transition-all duration-300"
+                        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-500 dark:to-purple-500 text-white text-sm font-semibold shadow-lg shadow-cyan-500/20 dark:shadow-cyan-500/30 hover:shadow-xl hover:shadow-cyan-500/30 dark:hover:shadow-cyan-500/40 transition-shadow duration-300"
                     >
                         <Download className="w-4 h-4" />
                         Resume
@@ -99,11 +118,11 @@ export function Nav() {
                     >
                         <AnimatePresence mode="wait">
                             {mobileOpen ? (
-                                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.15 }}>
                                     <X className="w-5 h-5 text-foreground" />
                                 </motion.div>
                             ) : (
-                                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.15 }}>
                                     <Menu className="w-5 h-5 text-foreground" />
                                 </motion.div>
                             )}
@@ -121,28 +140,32 @@ export function Nav() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            transition={{ duration: 0.3 }}
+                            transition={{ duration: 0.25 }}
                             onClick={closeMobile}
                             className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
                         />
 
                         {/* Slide-down panel */}
                         <motion.div
-                            initial={{ y: -20, opacity: 0 }}
-                            animate={{ y: 0, opacity: 1 }}
-                            exit={{ y: -20, opacity: 0 }}
-                            transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                            initial={{ y: -30, opacity: 0, scale: 0.97 }}
+                            animate={{ y: 0, opacity: 1, scale: 1 }}
+                            exit={{ y: -20, opacity: 0, scale: 0.97 }}
+                            transition={{ type: "spring", stiffness: 300, damping: 28 }}
                             className="fixed top-[65px] left-4 right-4 z-50 glass-morphism rounded-2xl border border-border/50 dark:border-white/10 shadow-2xl p-5 md:hidden overflow-hidden"
                         >
-                            <ul className="space-y-1">
-                                {navLinks.map((link, i) => {
+                            <motion.ul
+                                className="space-y-1"
+                                variants={mobileListVariants}
+                                initial="hidden"
+                                animate="visible"
+                                exit="exit"
+                            >
+                                {navLinks.map((link) => {
                                     const Icon = link.icon;
                                     const content = (
                                         <motion.div
-                                            initial={{ opacity: 0, x: -20 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: i * 0.07 }}
-                                            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted dark:hover:bg-white/5 transition-colors"
+                                            variants={mobileItemVariants}
+                                            className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-muted dark:hover:bg-white/5 transition-colors duration-200"
                                         >
                                             <Icon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
                                             <span className="text-base font-medium text-foreground">{link.name}</span>
@@ -159,13 +182,13 @@ export function Nav() {
                                         </li>
                                     );
                                 })}
-                            </ul>
+                            </motion.ul>
 
                             {/* Mobile Resume CTA */}
                             <motion.button
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
+                                transition={{ delay: 0.25, ...springSmooth }}
                                 onClick={handleResumeClick}
                                 className="w-full mt-4 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-500 dark:to-purple-500 text-white font-semibold shadow-lg shadow-cyan-500/20 transition-all"
                             >
@@ -180,37 +203,55 @@ export function Nav() {
             {/* Resume Confirmation Modal */}
             <AnimatePresence>
                 {showResumeConfirm && (
-                    <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-0 z-[60] flex items-center justify-center bg-black/60 backdrop-blur-sm"
+                    >
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            initial={{ opacity: 0, scale: 0.85, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                            transition={springSnappy}
                             className="bg-card dark:bg-slate-900 border border-border dark:border-white/10 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 text-center"
                         >
-                            <div className="w-16 h-16 rounded-full bg-cyan-600/10 dark:bg-cyan-500/10 flex items-center justify-center mx-auto mb-5">
+                            <motion.div
+                                initial={{ scale: 0 }}
+                                animate={{ scale: 1 }}
+                                transition={{ delay: 0.1, ...springBouncy }}
+                                className="w-16 h-16 rounded-full bg-cyan-600/10 dark:bg-cyan-500/10 flex items-center justify-center mx-auto mb-5"
+                            >
                                 <FileText className="w-8 h-8 text-cyan-600 dark:text-cyan-400" />
-                            </div>
+                            </motion.div>
                             <h3 className="text-2xl font-bold mb-3 text-foreground">Download Resume?</h3>
                             <p className="text-muted-foreground mb-8">
                                 Get the latest PDF resume for Alisha Tajpuriya.
                             </p>
                             <div className="flex justify-center gap-4">
-                                <button
+                                <motion.button
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.97 }}
+                                    transition={springBouncy}
                                     onClick={() => setShowResumeConfirm(false)}
                                     className="px-6 py-2.5 rounded-full border border-border dark:border-white/10 hover:bg-muted transition-colors text-foreground text-sm font-medium"
                                 >
                                     Cancel
-                                </button>
-                                <button
+                                </motion.button>
+                                <motion.button
+                                    whileHover={{ scale: 1.03 }}
+                                    whileTap={{ scale: 0.97 }}
+                                    transition={springBouncy}
                                     onClick={confirmDownload}
                                     className="px-6 py-2.5 rounded-full bg-gradient-to-r from-cyan-600 to-purple-600 hover:from-cyan-500 hover:to-purple-500 text-white font-semibold transition-all shadow-lg shadow-cyan-500/20 text-sm flex items-center gap-2"
                                 >
                                     <Download className="w-4 h-4" />
                                     Download PDF
-                                </button>
+                                </motion.button>
                             </div>
                         </motion.div>
-                    </div>
+                    </motion.div>
                 )}
             </AnimatePresence>
         </>

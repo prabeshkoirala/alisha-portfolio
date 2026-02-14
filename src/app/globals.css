@@ -24,28 +24,50 @@
   --font-space-grotesk: var(--font-space-grotesk);
   --font-pinyon-script: var(--font-pinyon-script);
 
-  --animate-fade-up: fade-up 0.5s ease-out forwards;
-  --animate-glow: glow 2s ease-in-out infinite alternate;
+  --animate-fade-up: fade-up 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-glow: glow 3s ease-in-out infinite alternate;
+  --animate-float: float 6s ease-in-out infinite;
 
   @keyframes fade-up {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(30px) translateZ(0);
     }
 
     to {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) translateZ(0);
     }
   }
 
   @keyframes glow {
-    from {
-      box-shadow: 0 0 5px #0dccf2, 0 0 10px #0dccf2;
+    0% {
+      box-shadow: 0 0 5px rgba(13, 204, 242, 0.4),
+        0 0 10px rgba(13, 204, 242, 0.2),
+        0 0 20px rgba(13, 204, 242, 0.1);
     }
 
-    to {
-      box-shadow: 0 0 20px #0dccf2, 0 0 30px #0dccf2;
+    50% {
+      box-shadow: 0 0 10px rgba(13, 204, 242, 0.6),
+        0 0 20px rgba(13, 204, 242, 0.3),
+        0 0 40px rgba(13, 204, 242, 0.15);
+    }
+
+    100% {
+      box-shadow: 0 0 15px rgba(13, 204, 242, 0.5),
+        0 0 30px rgba(13, 204, 242, 0.25),
+        0 0 50px rgba(13, 204, 242, 0.1);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0) translateZ(0);
+    }
+
+    50% {
+      transform: translateY(-6px) translateZ(0);
     }
   }
 }
@@ -155,10 +177,13 @@
   }
 
   body {
-    @apply text-foreground transition-colors duration-300 font-space-grotesk;
+    @apply text-foreground font-space-grotesk;
     font-feature-settings: "rlig" 1, "calt" 1;
     background-size: 300% 300%;
-    animation: gradient-shift 20s ease infinite;
+    animation: gradient-shift 35s ease infinite;
+    will-change: background-position;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* Light Theme - Clean Solid Background */
