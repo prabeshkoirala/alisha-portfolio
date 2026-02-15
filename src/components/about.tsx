@@ -21,6 +21,7 @@ const pillVariants = {
         scale: 1,
         filter: "blur(0px)",
         transition: springBouncy,
+        willChange: "transform, opacity",
     },
 };
 
@@ -33,6 +34,7 @@ export function About() {
                     whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={springSmooth}
+                    style={{ willChange: "transform, opacity" }}
                 >
                     <h2 className="text-2xl sm:text-3xl font-bold mb-6 sm:mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">
                         About Me

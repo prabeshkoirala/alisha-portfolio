@@ -16,6 +16,7 @@ export function Contact() {
                     whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={springSmooth}
+                    style={{ willChange: "transform, opacity" }}
                 >
                     <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-8 bg-clip-text text-transparent bg-gradient-to-r from-cyan-600 to-purple-600 dark:from-cyan-400 dark:to-purple-500">
                         Let&apos;s Connect
@@ -30,7 +31,7 @@ export function Contact() {
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             transition={springBouncy}
-                            className="flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-cyan-600 dark:bg-cyan-500 text-white dark:text-black font-bold hover:bg-cyan-500 dark:hover:bg-cyan-400 transition-colors duration-200 hover:shadow-xl hover:shadow-cyan-500/20 shadow-lg text-sm sm:text-base"
+                            className="flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 rounded-full bg-cyan-600 dark:bg-cyan-500 text-white dark:text-black font-bold hover:bg-cyan-500 dark:hover:bg-cyan-400 transition-colors duration-200 hover:shadow-xl hover:shadow-cyan-500/20 shadow-lg text-sm sm:text-base will-change-transform"
                         >
                             <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                             Send an Email

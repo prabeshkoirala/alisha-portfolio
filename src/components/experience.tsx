@@ -29,6 +29,7 @@ const listItemVariants = {
         x: 0,
         filter: "blur(0px)",
         transition: springSmooth,
+        willChange: "transform, opacity",
     },
 };
 
@@ -132,7 +133,7 @@ export function Experience() {
                                                         height: expandTransition.height,
                                                         opacity: expandTransition.opacity,
                                                     }}
-                                                    style={{ overflow: "hidden" }}
+                                                    style={{ overflow: "hidden", willChange: "height, opacity" }}
                                                 >
                                                     <div className="px-4 sm:px-5 pb-4 sm:pb-5 border-t border-border/50 dark:border-white/5 pt-3 sm:pt-4 space-y-3 sm:space-y-4">
                                                         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">

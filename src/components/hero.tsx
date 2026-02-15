@@ -37,6 +37,7 @@ export function Hero() {
             y: 0,
             filter: "blur(0px)",
             transition: springOrganic,
+            willChange: "transform, opacity",
         },
     };
 
@@ -113,6 +114,7 @@ export function Hero() {
                     <motion.div
                         whileHover={{ rotateY: 5, rotateX: 5 }}
                         transition={springFluid}
+                        style={{ willChange: "transform" }}
                         className="relative w-56 h-56 sm:w-72 sm:h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden glass-morphism p-2 sm:p-3 border border-border/50 dark:border-white/10 dark:neon-border transform transition-shadow duration-500 hover:shadow-2xl"
                     >
                         <div className="relative w-full h-full rounded-[1.5rem] overflow-hidden">

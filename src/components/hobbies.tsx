@@ -20,6 +20,7 @@ const cardVariants = {
         y: 0,
         filter: "blur(0px)",
         transition: springSmooth,
+        willChange: "transform, opacity",
     },
 };
 
