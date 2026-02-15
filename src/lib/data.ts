@@ -61,7 +61,8 @@ export const education = [
         major: "Business Analytics",
         school: "Utica University",
         location: "Utica, NY",
-        year: "Expected Graduation: 2027"
+        year: "Expected Graduation: 2027",
+        logo: "/images/logos/utica.png"
     },
     {
         degree: "Bachelor of Business Management (BBM)",
@@ -69,7 +70,8 @@ export const education = [
         school: "Orchid International College, Tribhuvan University",
         location: "Kathmandu, Nepal",
         year: "Graduation Date: 2025",
-        details: ["Business Administration Focus", "GPA: 3.77"]
+        details: ["Business Administration Focus", "GPA: 3.77"],
+        logo: "/images/logos/tribhuvan.png"
     }
 ];
 
